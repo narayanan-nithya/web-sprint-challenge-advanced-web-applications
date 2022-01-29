@@ -1,8 +1,53 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useState } from 'react';
+import { userHistory } from 'react-router-dom'
 import styled from 'styled-components';
 
 const Login = () => {
+
+    const [state, setState] = useState({
+        credentials: {
+            username: '',
+            password: '',
+        }
+    });
+
+    const [error, setError]= useState('');
+    const [incorrect, setIncorrect] = useState(false);
+    const { push } = userHistory ();
     
+    const handleChange = e => {
+        setState ({
+            credentials: {
+                ...state.credentials,
+                [e.target.name]: e.target.value,
+            }
+        });
+    };
+
+    const login = e => {
+        e.preventDefault();
+
+        if (state.credentials.username === 'Lambda' && state.credentials.password ==='School') {
+            axios.post ('http://localhost:5000/api/login', state.credentials)
+            .then(resp => {
+                const { token, role, username} = resp.data;
+                localStorage.setItem('token', token);
+                localStorage.setItem('role', role);
+                localStorage.setItem('username', username);
+                push('/view');
+            })
+
+            .catch (err => {
+                setError(err.response.data);
+            
+            })
+
+        }else {
+            setIncorrect(true);
+        };
+
+    };
     return(<ComponentContainer>
         <ModalContainer>
             <h1>Welcome to Blogger Pro</h1>
