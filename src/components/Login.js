@@ -53,6 +53,20 @@ const Login = () => {
             <h1>Welcome to Blogger Pro</h1>
             <h2>Please enter your account information.</h2>
         </ModalContainer>
+        <Label>Username</Label>
+        <Input 
+            type='text'
+            name='username'
+            value={state.credentials.username}
+            onChange={handleChange}
+        /><Label>Password</Label>
+        <Input 
+            type='text'
+            name='password'
+            value={state.credentials.password}
+            onChange={handleChange}
+        />
+        <Button onClick={login}>Log In Here</Button>
     </ComponentContainer>);
 }
 
